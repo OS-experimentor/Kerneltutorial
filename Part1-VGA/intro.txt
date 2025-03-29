@@ -1,0 +1,4 @@
+Welcome to the "How to write a kernel" tutorial (by Stanley Soja)!
+
+This part covers outputting to VGA (Video Graphics Array)
+VGA is primarily used in older hardware and can be used in VMs
