@@ -11,7 +11,7 @@ typedef unsigned long size_t;
 
 #define MAXBUFSZ 128 // Max buffer size (for readstr)
 
-
+#define NULL 0
 
 
 static uint16_t* vmem = (uint16_t*)VGAMEM; // This part is interesting. It establishes a 16 bit pointer to VGA, so VGA acts as a 16 bit value
@@ -127,10 +127,10 @@ void clrscr() {
 
 // So first, we need to read a byte from an I/O port. We will do this using "inb" NOTE: inb can be used for more things
 
-static inline inb(uint16_t port) {
-    uint8_t res;
-    __asm__ __volatile__ ("inb %1, %0" : "=a"(res) : "Nd"(port));
-    return res;
+static inline uint8_t inb(uint16_t port) {
+    uint8_t ret;
+    __asm__ __volatile__ ("inb %1, %0" : "=a"(ret) : "Nd"(port));
+    return ret;
 }
 
 // Nice! Now we have a function we can use to read from the keyboard port. But, it may(WILL) just write random garbage.
@@ -174,7 +174,7 @@ void readstr(char* buffer, size_t bufsize) {
         if (c) {
             if (c == '\b' && pos > 0) { // if the key is backspace:
                 pos--; // take 1 away from virtual position
-                cursorx = (cursorx =0 0) ? VGAWID - 1 : cursorx - 1; // new cursor x
+                cursorx = (cursorx == 0) ? VGAWID - 1 : cursorx - 1; // new cursor x
                 puts(" \b");
             }
 
@@ -225,9 +225,6 @@ void cmdHandler(const char *cmd) {
         clrscr();
     }
 
-    else if (cmd[0] = '\0') {
-        return;
-    }
 
     else {
         puts("Invalid command!");
