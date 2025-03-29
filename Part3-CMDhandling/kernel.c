@@ -9,6 +9,8 @@ typedef unsigned long size_t;
 #define VGAMEM 0xB8000 // This is where VGA text mode is in the computer memory. For graphics, you will want to use
 // the frame buffer (0xA0000 if I remember right!)
 
+#define NULL 0
+
 #define MAXBUFSZ 128 // Max buffer size (for readstr)
 
 
@@ -127,7 +129,7 @@ void clrscr() {
 
 // So first, we need to read a byte from an I/O port. We will do this using "inb" NOTE: inb can be used for more things
 
-static inline inb(uint16_t port) {
+static inline uint8_t inb(uint16_t port) {
     uint8_t res;
     __asm__ __volatile__ ("inb %1, %0" : "=a"(res) : "Nd"(port));
     return res;
